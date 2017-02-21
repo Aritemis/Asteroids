@@ -15,4 +15,9 @@ public class Point implements Cloneable
   {
 	  return new Point(x, y);
   }
+  
+  public String toString()
+  {
+	  return x + " " + y;
+  }
 }

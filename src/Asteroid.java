@@ -21,49 +21,70 @@ public class Asteroid extends Polygon
 		this.points = inShape;
 		this.warp = warp;
 	}
+	
+	public Asteroid(Point[] inShape, Point inPosition, double inRotation) 
+	{
+		super(inShape, inPosition, inRotation);
+		this.points = inShape;
+	}
 
 	@Override
 	public void paint(Graphics brush, Color color) 
 	{
-		if(!stationary)
-		{
-			move();
-		}
+		move();
 		points = this.getPoints();
-		int[] xValues = new int[3];
-		int[] yValues = new int[3];
+		int npts = points.length;
+		int[] xValues = new int[npts];
+		int[] yValues = new int[npts];
 		for(int i = 0; i < points.length; i++)
 		{
-			xValues[i] = (int) points[i].x + translationSeq;
-			yValues[i] = (int) points[i].y - translationSeq;
+			xValues[i] = (int) points[i].x;
+			yValues[i] = (int) points[i].y;
 //			System.out.println(xValues[i]);
 //			System.out.println(yValues[i]);
 		}
-		brush.drawPolygon(xValues,yValues, 3);
+		brush.drawPolygon(xValues,yValues, npts);
 	}
 
 	@Override
 	public void move() 
 	{
-		if(increase)
+//		';f(translationSeq > 200)
+//			{
+//				increase = false;
+//			}
+//		}
+//		else
+//		{
+//			translationSeq--;
+//			if(translationSeq < 0)
+//			{
+//				increase = true;
+//			}
+//		}
+//		if(this.warp % 250 == 0)
+//		{
+//			translationSeq = 0 - translationSeq;
+//		}
+		position.x += Math.cos(Math.toRadians(rotation));
+		position.y += Math.sin(Math.toRadians(rotation));
+		int maxWidth = Asteroids.SCREEN_WIDTH;
+		int maxHeight = Asteroids.SCREEN_HEIGHT;
+		if(position.x < -25)
 		{
-			translationSeq++;
-			if(translationSeq > 200)
-			{
-				increase = false;
-			}
+			position.x = position.x + maxWidth + 50;
 		}
-		else
+		else if(position.x - 25 > maxWidth)
 		{
-			translationSeq--;
-			if(translationSeq < 0)
-			{
-				increase = true;
-			}
+			position.x = position.x - maxWidth - 50;
 		}
-		if(this.warp % 250 == 0)
+		if(position.y < -25)
 		{
-			translationSeq = 0 - translationSeq;
+			position.y = position.y + maxHeight + 50;
+		}
+		else if(position.y - 25 > maxHeight)
+		{
+			position.y = position.y - maxHeight - 50;
 		}
 	}
 	

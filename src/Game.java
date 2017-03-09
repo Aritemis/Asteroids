@@ -9,7 +9,9 @@ Original code by Dan Leyzberg and Art Simon
 import java.awt.*;
 import java.awt.event.*;
 
-public abstract class Game extends Canvas 
+import javax.swing.JFrame;
+
+public abstract class Game extends Canvas implements KeyListener
 {
 	protected boolean on = true;
 	protected int width, height;
@@ -21,7 +23,8 @@ public abstract class Game extends Canvas
 		height = inHeight;
 
 		// Frame can be read as 'window' here.
-		Frame frame = new Frame(name);
+		JFrame frame = new JFrame(name);
+		frame.addKeyListener(this);
 		frame.add(this);
 		frame.setSize(width,height);
 		frame.setVisible(true);

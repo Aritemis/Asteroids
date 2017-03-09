@@ -18,11 +18,12 @@ public class Asteroids extends Game
 	public static final int SCREEN_HEIGHT = 600;
 	private ArrayList<Asteroid> asteroidList;
 	private Ship ship;
-//	private Asteroid firstAsteroid;
-//	private Asteroid secondAsteroid;
-//	private Asteroid thirdAsteroid;
 	static int counter = 0;
 	private List<Asteroid> randomAsteroids = new ArrayList<Asteroid>();
+	private boolean up;
+	private boolean down;
+	private boolean left;
+	private boolean right;
 
 	public Asteroids() 
 	{
@@ -35,13 +36,10 @@ public class Asteroids extends Game
 		shipShape[2] = new Point(-10.0,-20.0);
 		Point shipPosition = new Point(400,300);
 		ship = new Ship(shipShape, shipPosition, 90.0);
-//		this.asteroidList = new ArrayList<Asteroid>();
-//		this.firstAsteroid = addAsteroid(50, true, 0.0);
-//		this.secondAsteroid = addAsteroid(100, false, 50.0);
-//		this.thirdAsteroid = addAsteroid(250, false, 175.0);
-//		this.asteroidList.add(firstAsteroid);
-//		this.asteroidList.add(secondAsteroid);
-//		this.asteroidList.add(thirdAsteroid);
+		up = false;
+		down = false;
+		left = false;
+		right = false;
 		
 		randomAsteroids = createRandomAsteroids(10,60,30);
 	}
@@ -90,19 +88,12 @@ public class Asteroids extends Game
 	{
 		brush.setColor(Color.black);
 		brush.fillRect(0,0,width,height);
-//		for(Asteroid asteroid:asteroidList)
-//		{
-//			asteroid.paint(brush, Color.white);
-//		}
-		// sample code for printing message for debugging
-		// counter is incremented and this message printed
-		// each time the canvas is repainted
+		
 		counter++;
 		brush.setColor(Color.white);
 		brush.drawString("Counter is " + counter,10,10);
 		
-		brush.setColor(Color.blue);
-		ship.paint(brush, Color.blue);
+		ship.paint(brush, Color.blue, up, down, left, right);
 		brush.setColor(Color.white);
 		for (Asteroid asteroid : randomAsteroids)
 		{
@@ -121,20 +112,53 @@ public class Asteroids extends Game
 	{
 		asteroidList.add(newAsteroid);
 	}
-	
-	private Asteroid addAsteroid(int warp, boolean rotate, double rotation)
+
+
+	public void keyPressed(KeyEvent e) 
 	{
-		Point[] allPoints = new Point[3];
-		double warpedPoint = warp * 1.0;
-		Point a = new Point(0.0,0.0);
-		Point b = new Point(0.0,warpedPoint);
-		Point c = new Point(warpedPoint,warpedPoint);
-		Point d = new Point(warpedPoint, 0.0);
-		allPoints[0] = a;
-		allPoints[1] = b;
-		allPoints[2] = c;
-//		allPoints[3] = d;
-		return new Asteroid(allPoints, allPoints[2], rotation, rotate, warp);
+		System.out.println("registered");
+		if(e.getKeyCode() == KeyEvent.VK_UP) 
+		{
+			up = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+		{
+			down = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_LEFT) 
+		{
+			left = true;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+		{
+			right = true;
+		}
 	}
-	
+
+	@Override
+	public void keyReleased(KeyEvent e) 
+	{
+		if(e.getKeyCode() == KeyEvent.VK_UP) 
+		{
+			up = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+		{
+			down = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_LEFT) 
+		{
+			left = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+		{
+			right = false;
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) 
+	{
+		
+	}
 }

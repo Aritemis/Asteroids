@@ -20,10 +20,9 @@ public class Asteroids extends Game
 	private Ship ship;
 	static int counter = 0;
 	private List<Asteroid> randomAsteroids = new ArrayList<Asteroid>();
-	private boolean up;
-	private boolean down;
-	private boolean left;
-	private boolean right;
+	private boolean collide;
+	private int collideCount;
+	private Star[] stars;
 
 	public Asteroids() 
 	{
@@ -36,13 +35,33 @@ public class Asteroids extends Game
 		shipShape[2] = new Point(-10.0,-20.0);
 		Point shipPosition = new Point(400,300);
 		ship = new Ship(shipShape, shipPosition, 90.0);
-		up = false;
-		down = false;
-		left = false;
-		right = false;
-		
+		this.addKeyListener(ship);
 		randomAsteroids = createRandomAsteroids(10,60,30);
+		stars = createStars(150, 5);
+		collideCount = 0;
+		collide = false;
 	}
+
+	public Star[] createStars(int numberOfStars, int maxRadius) 
+	{
+		Star[] stars = new Star[numberOfStars];
+		for(int i = 0; i < numberOfStars; ++i) 
+		{
+			Point center = new Point
+					(Math.random() * SCREEN_WIDTH, Math.random() * SCREEN_HEIGHT);
+
+
+			int radius = (int) (Math.random() * maxRadius);
+			if(radius < 1)
+			{
+				radius = 1;
+			}
+			stars[i] = new Star(center, radius);
+		}
+
+
+	return stars;
+	 }
 
 	
 	private List<Asteroid> createRandomAsteroids(int numberOfAsteroids, int maxAsteroidWidth,
@@ -68,7 +87,8 @@ public class Asteroids extends Game
 			// Sample and store points around that circle
 			ArrayList<Point> asteroidSides = new ArrayList<Point>();
 			double originalAngle = angle;
-			while(angle < 2*Math.PI) {
+			while(angle < 2*Math.PI) 
+			{
 				double x = Math.cos(angle) * radius;
 				double y = Math.sin(angle) * radius;
 				asteroidSides.add(new Point(x, y));
@@ -92,14 +112,37 @@ public class Asteroids extends Game
 		counter++;
 		brush.setColor(Color.white);
 		brush.drawString("Counter is " + counter,10,10);
-		
-		ship.paint(brush, Color.blue, up, down, left, right);
 		brush.setColor(Color.white);
 		for (Asteroid asteroid : randomAsteroids)
 		{
-			asteroid.paint(brush,Color.white);
+			asteroid.paint(brush,Color.gray);
 			asteroid.move();
+			if(asteroid.collision(ship))
+			{
+				collideCount = 20;
+				collide = true;
+			}
 		}
+		
+		for (Star star : stars)
+		{
+			star.paint(brush, Color.white);
+		}
+		
+		if(!collide)
+		{
+			ship.paint(brush, Color.blue);
+		}
+		else
+		{
+			ship.paint(brush, Color.red);
+			collideCount--;
+			if(collideCount == 0)
+			{
+				collide = false;
+			}
+		}
+		ship.move();
 	}
 
 	public static void main (String[] args) 
@@ -114,51 +157,5 @@ public class Asteroids extends Game
 	}
 
 
-	public void keyPressed(KeyEvent e) 
-	{
-		System.out.println("registered");
-		if(e.getKeyCode() == KeyEvent.VK_UP) 
-		{
-			up = true;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_DOWN) 
-		{
-			down = true;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_LEFT) 
-		{
-			left = true;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
-		{
-			right = true;
-		}
-	}
 
-	@Override
-	public void keyReleased(KeyEvent e) 
-	{
-		if(e.getKeyCode() == KeyEvent.VK_UP) 
-		{
-			up = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_DOWN) 
-		{
-			down = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_LEFT) 
-		{
-			left = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
-		{
-			right = false;
-		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) 
-	{
-		
-	}
 }

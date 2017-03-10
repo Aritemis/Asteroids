@@ -11,11 +11,12 @@ import java.awt.event.*;
 
 import javax.swing.JFrame;
 
-public abstract class Game extends Canvas implements KeyListener
+public abstract class Game extends Canvas 
 {
 	protected boolean on = true;
 	protected int width, height;
 	protected Image buffer;
+	protected JFrame frame;
 
 	public Game(String name, int inWidth, int inHeight) 
 	{
@@ -23,8 +24,7 @@ public abstract class Game extends Canvas implements KeyListener
 		height = inHeight;
 
 		// Frame can be read as 'window' here.
-		JFrame frame = new JFrame(name);
-		frame.addKeyListener(this);
+		frame = new JFrame(name);
 		frame.add(this);
 		frame.setSize(width,height);
 		frame.setVisible(true);
@@ -35,6 +35,7 @@ public abstract class Game extends Canvas implements KeyListener
 		});
 
 		buffer = createImage(width, height);
+		
 	}
 
 	// 'paint' will be called every tenth of a second that the game is on.

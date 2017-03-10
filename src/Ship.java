@@ -3,17 +3,22 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Ship extends Polygon
+public class Ship extends Polygon implements KeyListener
 {
+
+	private int yVelocity;
+	private int xVelocity;
+	private boolean turningLeft;
+	private boolean turningRight;
+	private boolean forward;
 	
 	public Ship(Point[] inShape, Point inPosition, double inRotation)
 	{
 		super(inShape, inPosition, inRotation);
 	}
 
-	public void paint(Graphics brush, Color color, boolean up, boolean down, boolean left, boolean right) 
+	public void paint(Graphics brush, Color color) 
 	{
-		move(up, down, left, right);
 		Point[] points = this.getPoints();
 		int npts = points.length;
 		int[] xValues = new int[npts];
@@ -28,12 +33,31 @@ public class Ship extends Polygon
 
 	}
 
-	public void move(boolean up, boolean down, boolean left, boolean right) 
+	public void move() 
 	{	
-		moveUp(up);
-		moveDown(down);
-		moveLeft(left);
-		moveRight(right);
+			if(turningLeft)
+			{
+				rotate(3);
+				position.x += 3 * Math.cos(Math.toRadians(rotation));
+				position.y += 3 * Math.sin(Math.toRadians(rotation));
+			}
+			if(turningRight)
+			{
+				rotate(-3);
+				position.x += 3 * Math.cos(Math.toRadians(rotation));
+				position.y += 3 * Math.sin(Math.toRadians(rotation));
+			}
+			if(forward)
+			{
+				position.x += 3 * Math.cos(Math.toRadians(rotation));
+				position.y += 3 * Math.sin(Math.toRadians(rotation));
+			}
+			
+			position.x += xVelocity; 
+			position.y += yVelocity;
+			
+		
+		
 		if(position.x > Asteroids.SCREEN_WIDTH) 
 		{
 			position.x -= Asteroids.SCREEN_WIDTH;
@@ -52,47 +76,54 @@ public class Ship extends Polygon
 		}
 	}
 	
-	private void moveUp(boolean up)
+	public void keyPressed(KeyEvent e) 
 	{
-		if(up)
+		if(e.getKeyCode() == KeyEvent.VK_UP) 
 		{
-			position.x += 3 * Math.cos(Math.toRadians(rotation));
-			position.y += 3 * Math.sin(Math.toRadians(rotation));
+			yVelocity = -1;
 		}
-	}
-	private void moveDown(boolean down)
-	{
-		if(down)
+		if(e.getKeyCode() == KeyEvent.VK_DOWN) 
 		{
-			position.y+=1;
+			yVelocity = 1;
 		}
-	}
-	private void moveLeft(boolean left)
-	{
-		if(left)
+		if(e.getKeyCode() == KeyEvent.VK_LEFT) 
 		{
-			position.x-=1;
+			turningLeft = true;
+			xVelocity = -1;
 		}
-	}
-	private void moveRight(boolean right)
-	{
-		if(right)
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
 		{
-			position.x+=1;
+			turningRight = true;
+			xVelocity = 1;
 		}
 	}
 
 	@Override
-	public void paint(Graphics brush, Color color) 
+	public void keyReleased(KeyEvent e) 
 	{
-		// TODO Auto-generated method stub
-		
+		if(e.getKeyCode() == KeyEvent.VK_UP) 
+		{
+			yVelocity = 0;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+		{
+			yVelocity = 0;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_LEFT) 
+		{
+			turningLeft = false;
+			xVelocity = 0;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+		{
+			turningRight = false;
+			xVelocity = 0;
+		}
 	}
 
 	@Override
-	public void move() 
+	public void keyTyped(KeyEvent e) 
 	{
-		// TODO Auto-generated method stub
 		
 	}
 

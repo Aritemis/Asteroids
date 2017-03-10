@@ -64,6 +64,22 @@ public  abstract class Polygon implements Shape
 		}
 		return points;
 	}
+	
+	public boolean collision(Polygon ship) 
+	{
+		// get the Point objects for the Ship
+		Point[] points = ship.getPoints();
+		boolean contains = false;
+		for(Point p : points) 
+		{
+			if(this.contains(p)) 
+			{
+				contains = true;
+			}
+		}
+		return contains;
+	}
+
 
 	// "contains" implements some magical math (i.e. the ray-casting algorithm).
 	public boolean contains(Point point) 

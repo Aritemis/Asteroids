@@ -29,12 +29,14 @@ public class Asteroids extends Game
 		super("Asteroids!",800,600);
 		this.setFocusable(true);
 		this.requestFocus();
-		Point[] shipShape = new Point[3];
-		shipShape[0] = new Point(0.0,0.0);
-		shipShape[1] = new Point(10.0,-20.0);
-		shipShape[2] = new Point(-10.0,-20.0);
+		Point[] shipShape = 
+		{
+				new Point(0, 0),
+				new Point(0, 20),
+				new Point(30, 10)
+		};
 		Point shipPosition = new Point(400,300);
-		ship = new Ship(shipShape, shipPosition, 90.0);
+		ship = new Ship(shipShape, shipPosition, 270);
 		this.addKeyListener(ship);
 		randomAsteroids = createRandomAsteroids(10,60,30);
 		stars = createStars(150, 5);
@@ -115,13 +117,13 @@ public class Asteroids extends Game
 		brush.setColor(Color.white);
 		for (Asteroid asteroid : randomAsteroids)
 		{
-			asteroid.paint(brush,Color.gray);
 			asteroid.move();
 			if(asteroid.collision(ship))
 			{
 				collideCount = 20;
 				collide = true;
 			}
+			asteroid.paint(brush,Color.gray);
 		}
 		
 		for (Star star : stars)
@@ -143,6 +145,21 @@ public class Asteroids extends Game
 			}
 		}
 		ship.move();
+		ArrayList<Bullet> shots = ship.getBullets();
+		ArrayList<Bullet> removeList = new ArrayList<Bullet>();
+		for(Bullet shot: shots)
+		{
+			shot.move();
+			if(shot.outOfBounds())
+			{
+				removeList.add(shot);
+			}
+			shot.paint(brush, Color.green);
+		}
+		for(Bullet shot: removeList)
+		{
+			shots.remove(shot);
+		}
 	}
 
 	public static void main (String[] args) 

@@ -5,7 +5,7 @@ import java.awt.Graphics;
  *	@author Ariana Fairbanks
  */
 
-public class Asteroid extends Polygon 
+public class Asteroid extends Polygon implements Shape
 {
 
 	private Point[] points;
@@ -20,7 +20,7 @@ public class Asteroid extends Polygon
 	public void paint(Graphics brush, Color color) 
 	{
 		move();
-		points = this.getPoints();
+		Point[] points = this.getPoints();
 		int npts = points.length;
 		int[] xValues = new int[npts];
 		int[] yValues = new int[npts];
@@ -30,7 +30,7 @@ public class Asteroid extends Polygon
 			yValues[i] = (int) points[i].y;
 		}
 		brush.setColor(color);
-		brush.drawPolygon(xValues,yValues, npts);
+		brush.drawPolygon(xValues, yValues, npts);
 	}
 
 	@Override

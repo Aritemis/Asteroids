@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public class Ship extends Polygon implements KeyListener
 {
 	
-	private boolean forward;
-	private boolean backward;
-	private boolean turningRight;
-	private boolean turningLeft;
+	private static boolean forward;
+	private static boolean backward;
+	private static boolean turningRight;
+	private static boolean turningLeft;
 	private boolean shoot;
 	private boolean mustRelease;
 	private ArrayList<Bullet> shots;
@@ -41,29 +41,29 @@ public class Ship extends Polygon implements KeyListener
 			xValues[i] = (int) points[i].x;
 			yValues[i] = (int) points[i].y;
 		}
+		brush.setColor(Color.black);
+		brush.fillPolygon(xValues, yValues, npts);
 		brush.setColor(color);
-		brush.drawPolygon(xValues,yValues, npts);
-
+		brush.drawPolygon(xValues, yValues, npts);
 	}
 
 	public void move() 
 	{	
-
-        if(forward) 
+        if(isForward()) 
         {
             position.x += 3 * Math.cos(Math.toRadians(rotation));
             position.y += 3 * Math.sin(Math.toRadians(rotation));
         }
-        if(backward) 
+        if(isBackward()) 
         {
             position.x -= 3 * Math.cos(Math.toRadians(rotation));
             position.y -= 3 * Math.sin(Math.toRadians(rotation));
         }
-        if(turningRight) 
+        if(isTurningRight()) 
         {
             rotate(2);
         }
-        if(turningLeft) 
+        if(isTurningLeft()) 
         {
             rotate(-2);
         }
@@ -71,7 +71,9 @@ public class Ship extends Polygon implements KeyListener
         {
             if(!mustRelease)
             {
-            	shots.add(new Bullet(position.clone(), rotation));
+            	Bullet start = new Bullet(getPoints()[2].clone(), rotation);
+            	start.center.x -= 2;
+            	shots.add(start);
             }
             mustRelease = true;
             shoot = false;
@@ -99,6 +101,30 @@ public class Ship extends Polygon implements KeyListener
 	public ArrayList<Bullet> getBullets()
 	{
 		return shots;
+	}
+	
+	public double getRotation()
+	{
+		return rotation;
+	}
+
+	public static boolean isForward()
+	{
+		return forward;
+	}
+	public static boolean isBackward()
+	{
+		return backward;
+	}
+
+	public static boolean isTurningRight() 
+	{
+		return turningRight;
+	}
+
+	public static boolean isTurningLeft() 
+	{
+		return turningLeft;
 	}
 
 	public void keyPressed(KeyEvent e) 

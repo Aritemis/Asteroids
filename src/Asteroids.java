@@ -16,17 +16,19 @@ public class Asteroids extends Game
 {
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
-	private ArrayList<Asteroid> asteroidList;
 	private Ship ship;
 	static int counter = 0;
 	private List<Asteroid> randomAsteroids = new ArrayList<Asteroid>();
-	private boolean collide;
+	private static boolean collide;
 	private int collideCount;
+	private int shipColor = 0;
 	private Star[] stars;
+	private int colorPosition = 0;
+	private int starCount = 0;
 
 	public Asteroids() 
 	{
-		super("Asteroids!",800,600);
+		super("Asteroids",800,600);
 		this.setFocusable(true);
 		this.requestFocus();
 		Point[] shipShape = 
@@ -39,7 +41,7 @@ public class Asteroids extends Game
 		ship = new Ship(shipShape, shipPosition, 270);
 		this.addKeyListener(ship);
 		randomAsteroids = createRandomAsteroids(10,60,30);
-		stars = createStars(150, 5);
+		stars = createStars(200, 5);
 		collideCount = 0;
 		collide = false;
 	}
@@ -51,8 +53,6 @@ public class Asteroids extends Game
 		{
 			Point center = new Point
 					(Math.random() * SCREEN_WIDTH, Math.random() * SCREEN_HEIGHT);
-
-
 			int radius = (int) (Math.random() * maxRadius);
 			if(radius < 1)
 			{
@@ -60,9 +60,7 @@ public class Asteroids extends Game
 			}
 			stars[i] = new Star(center, radius);
 		}
-
-
-	return stars;
+		return stars;
 	 }
 
 	
@@ -108,13 +106,22 @@ public class Asteroids extends Game
 	
 	public void paint(Graphics brush) 
 	{
+		Color shipColor = rainbow();
+		List<Bullet> shots = ship.getBullets();
+		List<Bullet> removeList = new ArrayList<Bullet>();
+		List<Asteroid> splodePlz = new ArrayList<Asteroid>();
+		
+		if(collide)
+		{
+			shipColor = danger();
+		}
 		brush.setColor(Color.black);
 		brush.fillRect(0,0,width,height);
 		
 		counter++;
 		brush.setColor(Color.white);
 		brush.drawString("Counter is " + counter,10,10);
-		brush.setColor(Color.white);
+		brush.setColor(Color.gray);
 		for (Asteroid asteroid : randomAsteroids)
 		{
 			asteroid.move();
@@ -123,21 +130,50 @@ public class Asteroids extends Game
 				collideCount = 20;
 				collide = true;
 			}
-			asteroid.paint(brush,Color.gray);
+			
+			asteroid.paint(brush, Color.gray);
+			
+			for(Bullet shot:shots)
+			{
+				if(asteroid.contains(shot.getCenter()))
+				{
+					splodePlz.add(asteroid);
+					removeList.add(shot);
+				}
+			}
+		}
+		
+		for(Asteroid asteroid : splodePlz)
+		{
+			randomAsteroids.remove(asteroid);
+		}
+		for(Bullet shot: removeList)
+		{
+			shots.remove(shot);
 		}
 		
 		for (Star star : stars)
 		{
-			star.paint(brush, Color.white);
+			Color starColor = Color.white;
+			if(starCount == 5)
+			{
+				if(colorPosition == 0)
+				{
+					starColor = Color.black;
+				}
+				starCount = -1;
+			}
+			starCount++;
+			star.paint(brush, starColor, ship.getRotation());
 		}
 		
 		if(!collide)
 		{
-			ship.paint(brush, Color.blue);
+			ship.paint(brush, shipColor);
 		}
 		else
 		{
-			ship.paint(brush, Color.red);
+			ship.paint(brush, shipColor);
 			collideCount--;
 			if(collideCount == 0)
 			{
@@ -145,8 +181,7 @@ public class Asteroids extends Game
 			}
 		}
 		ship.move();
-		ArrayList<Bullet> shots = ship.getBullets();
-		ArrayList<Bullet> removeList = new ArrayList<Bullet>();
+		
 		for(Bullet shot: shots)
 		{
 			shot.move();
@@ -154,12 +189,58 @@ public class Asteroids extends Game
 			{
 				removeList.add(shot);
 			}
-			shot.paint(brush, Color.green);
+			shot.paint(brush, shipColor);
 		}
 		for(Bullet shot: removeList)
 		{
 			shots.remove(shot);
 		}
+	}
+	
+	public Color rainbow()
+	{
+		Color color = null;
+		
+		switch(colorPosition)
+		{
+			case 0:
+				color = Color.cyan;
+				colorPosition ++;
+				break;
+				
+			case 1: 
+				color = Color.blue;
+				colorPosition = 0;
+				break;
+				
+			default:
+				color = Color.gray;
+				break;
+		}
+		return color;
+	}
+	
+	public Color danger()
+	{
+		Color color = null;
+		
+		switch(shipColor)
+		{
+			case 0:
+				color = Color.red;
+				shipColor ++;
+				break;
+				
+			case 1: 
+				color = Color.white;
+				shipColor = 0;
+				break;
+				
+			default:
+				color = Color.gray;
+				break;
+		}
+		return color;
 	}
 
 	public static void main (String[] args) 
@@ -167,12 +248,5 @@ public class Asteroids extends Game
 		Asteroids a = new Asteroids();
 		a.repaint();
 	}
-	
-	public void addToList(Asteroid newAsteroid)
-	{
-		asteroidList.add(newAsteroid);
-	}
-
-
 
 }

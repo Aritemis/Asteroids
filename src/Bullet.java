@@ -8,7 +8,7 @@ public class Bullet extends Circle
 
 	public Bullet(Point center, double rotation) 
 	{
-		super(center, 10);
+		super(center, 5);
 		this.rotation = rotation;
 	}
 
@@ -34,6 +34,11 @@ public class Bullet extends Circle
 			result = true;
 		}
 		return result;
+	}
+	
+	public Point getCenter()
+	{
+		return this.center;
 	}
 
 

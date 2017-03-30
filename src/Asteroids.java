@@ -9,8 +9,12 @@ Original code by Dan Leyzberg and Art Simon
 import java.awt.*;
 import java.awt.Polygon;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 public class Asteroids extends Game 
 {
@@ -21,10 +25,14 @@ public class Asteroids extends Game
 	private List<Asteroid> randomAsteroids = new ArrayList<Asteroid>();
 	private static boolean collide;
 	private int collideCount;
-	private int shipColor = 0;
+	private int shipColor;
 	private Star[] stars;
-	private int colorPosition = 0;
-	private int starCount = 0;
+	private int colorPosition;
+	private int starCount;
+	private int lives;
+	private boolean invincible;
+	private BufferedImage lose;
+	private BufferedImage win;
 
 	public Asteroids() 
 	{
@@ -40,10 +48,20 @@ public class Asteroids extends Game
 		Point shipPosition = new Point(400,300);
 		ship = new Ship(shipShape, shipPosition, 270);
 		this.addKeyListener(ship);
-		randomAsteroids = createRandomAsteroids(10,60,30);
+		randomAsteroids = createRandomAsteroids(15,60,30);
 		stars = createStars(200, 5);
 		collideCount = 0;
+		colorPosition = 0;
+		starCount = 0;
+		lives = 5;
+		invincible = false;
 		collide = false;
+		try 
+		{
+			lose = ImageIO.read(this.getClass().getResourceAsStream("lose.png"));
+			win = ImageIO.read(this.getClass().getResourceAsStream("win.png"));
+		} 
+		catch (Exception e) {}
 	}
 
 	public Star[] createStars(int numberOfStars, int maxRadius) 
@@ -119,16 +137,21 @@ public class Asteroids extends Game
 		brush.fillRect(0,0,width,height);
 		
 		counter++;
-		brush.setColor(Color.white);
-		brush.drawString("Counter is " + counter,10,10);
+//		brush.setColor(Color.white);
+//		brush.drawString("Counter is " + counter,10,10);
 		brush.setColor(Color.gray);
 		for (Asteroid asteroid : randomAsteroids)
 		{
 			asteroid.move();
 			if(asteroid.collision(ship))
 			{
-				collideCount = 20;
+				collideCount = 40;
+				if(!invincible)
+				{
+					lives--;
+				}
 				collide = true;
+				invincible = true;
 			}
 			
 			asteroid.paint(brush, Color.gray);
@@ -169,15 +192,16 @@ public class Asteroids extends Game
 		
 		if(!collide)
 		{
-			ship.paint(brush, shipColor);
+			ship.paint(brush,shipColor);
 		}
 		else
 		{
-			ship.paint(brush, shipColor);
+			ship.paint(brush,shipColor);
 			collideCount--;
 			if(collideCount == 0)
 			{
 				collide = false;
+				invincible = false;
 			}
 		}
 		ship.move();
@@ -189,11 +213,27 @@ public class Asteroids extends Game
 			{
 				removeList.add(shot);
 			}
-			shot.paint(brush, shipColor);
+			shot.paint(brush,shipColor);
 		}
 		for(Bullet shot: removeList)
 		{
 			shots.remove(shot);
+		}
+		
+		if(randomAsteroids.isEmpty())
+		{
+			brush.setColor(Color.black);
+			//brush.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+			brush.drawImage(win , 200, 200, frame);
+			on = false;
+		}
+		
+		if(lives < 0)
+		{
+			brush.setColor(Color.black);
+			//brush.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+			brush.drawImage(lose , 200, 200, frame);
+			on = false;
 		}
 	}
 	

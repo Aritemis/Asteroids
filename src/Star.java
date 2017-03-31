@@ -55,15 +55,15 @@ public class Star extends Circle
 	}
 
 	@Override
-	public void paint(Graphics brush, Color color) {
-		// TODO Auto-generated method stub
-
+	public void paint(Graphics brush, Color color) 
+	{
+		
 	}
 
 	@Override
-	public void move() {
-		// TODO Auto-generated method stub
-
+	public void move() 
+	{
+		
 	}
 
 }

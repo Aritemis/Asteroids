@@ -79,7 +79,6 @@ public class Ship extends Polygon implements KeyListener
             shoot = false;
         }
 
-
 		if(position.x > Asteroids.SCREEN_WIDTH) 
 		{
 			position.x -= Asteroids.SCREEN_WIDTH;

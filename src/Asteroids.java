@@ -137,8 +137,8 @@ public class Asteroids extends Game
 		brush.fillRect(0,0,width,height);
 		
 		counter++;
-//		brush.setColor(Color.white);
-//		brush.drawString("Counter is " + counter,10,10);
+		brush.setColor(Color.blue);
+		brush.drawString("Lives Left: " + lives, 25, 25);
 		brush.setColor(Color.gray);
 		for (Asteroid asteroid : randomAsteroids)
 		{
@@ -178,7 +178,7 @@ public class Asteroids extends Game
 		for (Star star : stars)
 		{
 			Color starColor = Color.white;
-			if(starCount == 5)
+			if(starCount == 2)
 			{
 				if(colorPosition == 0)
 				{
@@ -228,8 +228,10 @@ public class Asteroids extends Game
 			on = false;
 		}
 		
-		if(lives < 0)
+		if(lives < 1)
 		{
+			brush.setColor(Color.red);
+			brush.drawString("Lives Left: " + lives, 25, 25);
 			brush.setColor(Color.black);
 			//brush.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 			brush.drawImage(lose , 200, 200, frame);

@@ -130,19 +130,19 @@ public class Ship extends Polygon implements KeyListener
 	{
 		if(!Asteroids.limbo && !Asteroids.paused)
 		{
-			if(e.getKeyCode() == KeyEvent.VK_UP) 
+			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) 
 			{
 				forward = true;
 			}
-			if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+			if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) 
 			{
 				backward = true;
 			}
-			if(e.getKeyCode() == KeyEvent.VK_LEFT) 
+			if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) 
 			{
 				turningLeft = true;
 			}
-			if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) 
 			{
 				turningRight = true;
 			}
@@ -176,19 +176,19 @@ public class Ship extends Polygon implements KeyListener
 	{
 		if(!Asteroids.limbo && !Asteroids.paused)
 		{
-			if(e.getKeyCode() == KeyEvent.VK_UP) 
+			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) 
 			{
 				forward = false;
 			}
-			if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+			if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) 
 			{
 				backward = false;
 			}
-			if(e.getKeyCode() == KeyEvent.VK_LEFT) 
+			if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) 
 			{
 				turningLeft = false;
 			}
-			if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) 
 			{
 				turningRight = false;
 			}

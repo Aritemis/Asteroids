@@ -128,50 +128,74 @@ public class Ship extends Polygon implements KeyListener
 
 	public void keyPressed(KeyEvent e) 
 	{
-		if(e.getKeyCode() == KeyEvent.VK_UP) 
+		if(!Asteroids.limbo && !Asteroids.paused)
 		{
-			forward = true;
+			if(e.getKeyCode() == KeyEvent.VK_UP) 
+			{
+				forward = true;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+			{
+				backward = true;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_LEFT) 
+			{
+				turningLeft = true;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+			{
+				turningRight = true;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_SPACE) 
+			{
+				shoot = true;
+			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) 
 		{
-			backward = true;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_LEFT) 
-		{
-			turningLeft = true;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
-		{
-			turningRight = true;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_SPACE) 
-		{
-			shoot = true;
+			if(Asteroids.limbo)
+			{
+				Asteroids.reset = true;
+			}
+			else
+			{
+				if(Asteroids.paused)
+				{
+					Asteroids.paused = false;
+				}
+				else
+				{
+					Asteroids.paused = true;
+				}
+			}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) 
 	{
-		if(e.getKeyCode() == KeyEvent.VK_UP) 
+		if(!Asteroids.limbo && !Asteroids.paused)
 		{
-			forward = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_DOWN) 
-		{
-			backward = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_LEFT) 
-		{
-			turningLeft = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
-		{
-			turningRight = false;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_SPACE) 
-		{
-			mustRelease = false;
+			if(e.getKeyCode() == KeyEvent.VK_UP) 
+			{
+				forward = false;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+			{
+				backward = false;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_LEFT) 
+			{
+				turningLeft = false;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+			{
+				turningRight = false;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_SPACE) 
+			{
+				mustRelease = false;
+			}
 		}
 	}
 

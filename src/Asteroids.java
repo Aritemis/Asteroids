@@ -20,6 +20,9 @@ public class Asteroids extends Game
 {
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
+	public static boolean paused;
+	public static boolean limbo;
+	public static boolean reset;
 	private Ship ship;
 	static int counter = 0;
 	private List<Asteroid> randomAsteroids = new ArrayList<Asteroid>();
@@ -33,6 +36,9 @@ public class Asteroids extends Game
 	private boolean invincible;
 	private BufferedImage lose;
 	private BufferedImage win;
+	private BufferedImage any;
+	private BufferedImage pause;
+	private BufferedImage proceed;
 
 	public Asteroids() 
 	{
@@ -55,15 +61,21 @@ public class Asteroids extends Game
 		starCount = 0;
 		lives = 5;
 		invincible = false;
+		limbo = false;
+		reset = false;
+		paused = false;
 		collide = false;
 		try 
 		{
 			lose = ImageIO.read(this.getClass().getResourceAsStream("lose.png"));
 			win = ImageIO.read(this.getClass().getResourceAsStream("win.png"));
+			any = ImageIO.read(this.getClass().getResourceAsStream("any.png"));
+			pause = ImageIO.read(this.getClass().getResourceAsStream("pause.png"));
+			proceed = ImageIO.read(this.getClass().getResourceAsStream("enter.png"));
 		} 
 		catch (Exception e) {}
 	}
-
+	
 	public Star[] createStars(int numberOfStars, int maxRadius) 
 	{
 		Star[] stars = new Star[numberOfStars];
@@ -114,128 +126,162 @@ public class Asteroids extends Game
 			}
 			// Set everything up to create the asteroid
 			Point[] inSides = asteroidSides.toArray(new Point[asteroidSides.size()]);
-			Point inPosition = new Point(Math.random() * SCREEN_WIDTH, Math.random() * SCREEN_HEIGHT);
+			double randomX = Math.random() * SCREEN_WIDTH;
+			double randomY = Math.random() * SCREEN_HEIGHT;
+			boolean xTooNearShip = false;
+			boolean yTooNearShip = false;
+			if((randomX > 350) && (randomX <450)){xTooNearShip = true;}
+			if((randomY > 250) && (randomY <350)){yTooNearShip = true;}
+			if((xTooNearShip) && (yTooNearShip))
+			{
+				if(xTooNearShip)
+				{
+					if((int)randomX % 2 == 0){	randomX += 100;	}else{ randomX -= 100; }
+				}
+				else
+				{
+					if((int)randomY % 2 == 0){	randomY += 100;	}else{ randomY -= 100; }
+				}
+			}
+			Point inPosition = new Point(randomX, randomY);
 			double inRotation = Math.random() * 360;
 			asteroids.add(new Asteroid(inSides, inPosition, inRotation));
 		}
 		return asteroids;
 	}
 	
-	
 	public void paint(Graphics brush) 
 	{
-		Color shipColor = rainbow();
-		List<Bullet> shots = ship.getBullets();
-		List<Bullet> removeList = new ArrayList<Bullet>();
-		List<Asteroid> splodePlz = new ArrayList<Asteroid>();
-		
-		if(collide)
+		if(limbo)
 		{
-			shipColor = danger();
+			if(reset){	reset(); }
 		}
-		brush.setColor(Color.black);
-		brush.fillRect(0,0,width,height);
-		
-		counter++;
-		brush.setColor(Color.blue);
-		brush.drawString("Lives Left: " + lives, 25, 25);
-		brush.setColor(Color.gray);
-		for (Asteroid asteroid : randomAsteroids)
+		else if(paused)
 		{
-			asteroid.move();
-			if(asteroid.collision(ship))
-			{
-				collideCount = 40;
-				if(!invincible)
-				{
-					lives--;
-				}
-				collide = true;
-				invincible = true;
-			}
-			
-			asteroid.paint(brush, Color.gray);
-			
-			for(Bullet shot:shots)
-			{
-				if(asteroid.contains(shot.getCenter()))
-				{
-					splodePlz.add(asteroid);
-					removeList.add(shot);
-				}
-			}
-		}
-		
-		for(Asteroid asteroid : splodePlz)
-		{
-			randomAsteroids.remove(asteroid);
-		}
-		for(Bullet shot: removeList)
-		{
-			shots.remove(shot);
-		}
-		
-		for (Star star : stars)
-		{
-			Color starColor = Color.white;
-			if(starCount == 2)
-			{
-				if(colorPosition == 0)
-				{
-					starColor = Color.black;
-				}
-				starCount = -1;
-			}
-			starCount++;
-			star.paint(brush, starColor, ship.getRotation());
-		}
-		
-		if(!collide)
-		{
-			ship.paint(brush,shipColor);
+			brush.drawImage(pause , 200, 200, frame);
+			brush.drawImage(proceed , 215, 508, frame);
 		}
 		else
 		{
-			ship.paint(brush,shipColor);
-			collideCount--;
-			if(collideCount == 0)
+			Color shipColor = rainbow();
+			List<Bullet> shots = ship.getBullets();
+			List<Bullet> removeList = new ArrayList<Bullet>();
+			List<Asteroid> splodePlz = new ArrayList<Asteroid>();
+			
+			if(collide)
 			{
-				collide = false;
-				invincible = false;
+				shipColor = danger();
 			}
-		}
-		ship.move();
-		
-		for(Bullet shot: shots)
-		{
-			shot.move();
-			if(shot.outOfBounds())
-			{
-				removeList.add(shot);
-			}
-			shot.paint(brush,shipColor);
-		}
-		for(Bullet shot: removeList)
-		{
-			shots.remove(shot);
-		}
-		
-		if(randomAsteroids.isEmpty())
-		{
 			brush.setColor(Color.black);
-			//brush.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-			brush.drawImage(win , 200, 200, frame);
-			on = false;
-		}
-		
-		if(lives < 1)
-		{
-			brush.setColor(Color.red);
+			brush.fillRect(0,0,width,height);
+			
+			counter++;
+			brush.setColor(Color.green);
+			if(lives < 2)
+			{
+				brush.setColor(Color.red);
+			}
 			brush.drawString("Lives Left: " + lives, 25, 25);
-			brush.setColor(Color.black);
-			//brush.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-			brush.drawImage(lose , 200, 200, frame);
-			on = false;
+			brush.setColor(Color.gray);
+			for (Asteroid asteroid : randomAsteroids)
+			{
+				asteroid.move();
+				if(asteroid.collision(ship))
+				{
+					collideCount = 40;
+					if(!invincible)
+					{
+						lives--;
+					}
+					collide = true;
+					invincible = true;
+				}
+				
+				asteroid.paint(brush, Color.gray);
+				
+				for(Bullet shot:shots)
+				{
+					if(asteroid.contains(shot.getCenter()))
+					{
+						splodePlz.add(asteroid);
+						removeList.add(shot);
+					}
+				}
+			}
+			
+			for(Asteroid asteroid : splodePlz)
+			{
+				randomAsteroids.remove(asteroid);
+			}
+			for(Bullet shot: removeList)
+			{
+				shots.remove(shot);
+			}
+			
+			for (Star star : stars)
+			{
+				Color starColor = Color.white;
+				if(starCount == 2)
+				{
+					if(colorPosition == 0)
+					{
+						starColor = Color.black;
+					}
+					starCount = -1;
+				}
+				starCount++;
+				star.paint(brush, starColor, ship.getRotation());
+			}
+			
+			if(!collide)
+			{
+				ship.paint(brush,shipColor);
+			}
+			else
+			{
+				ship.paint(brush,shipColor);
+				collideCount--;
+				if(collideCount == 0)
+				{
+					collide = false;
+					invincible = false;
+				}
+			}
+			ship.move();
+			
+			for(Bullet shot: shots)
+			{
+				shot.move();
+				if(shot.outOfBounds())
+				{
+					removeList.add(shot);
+				}
+				shot.paint(brush,shipColor);
+			}
+			for(Bullet shot: removeList)
+			{
+				shots.remove(shot);
+			}
+			
+			if(randomAsteroids.isEmpty())
+			{
+				brush.setColor(Color.black);
+				//brush.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+				brush.drawImage(win , 200, 200, frame);
+				brush.drawImage(proceed , 215, 508, frame);
+				limbo = true;
+			}
+			
+			if(lives < 1)
+			{
+				brush.setColor(Color.red);
+				brush.drawString("Lives Left: " + lives, 25, 25);
+				brush.setColor(Color.black);
+				//brush.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+				brush.drawImage(lose , 200, 200, frame);
+				brush.drawImage(proceed , 215, 508, frame);
+				limbo = true;
+			}
 		}
 	}
 	
@@ -289,6 +335,30 @@ public class Asteroids extends Game
 	{
 		Asteroids a = new Asteroids();
 		a.repaint();
+	}
+	
+	private void reset()
+	{
+		Point[] shipShape = 
+			{
+					new Point(0, 0),
+					new Point(0, 20),
+					new Point(30, 10)
+			};
+		Point shipPosition = new Point(400,300);
+		ship = new Ship(shipShape, shipPosition, 270);
+		this.addKeyListener(ship);
+		randomAsteroids = createRandomAsteroids(15,60,30);
+		stars = createStars(200, 5);
+		collideCount = 0;
+		colorPosition = 0;
+		starCount = 0;
+		lives = 5;
+		invincible = false;
+		limbo = false;
+		reset = false;
+		paused = false;
+		collide = false;
 	}
 
 }

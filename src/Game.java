@@ -34,7 +34,11 @@ public abstract class Game extends Canvas
 			public void windowClosing(WindowEvent e) {System.exit(0);} 
 		});
 
-		buffer = createImage(width, height);
+		buffer = createImage(width, height);	
+	}
+	
+	public Game()
+	{
 		
 	}
 

@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 
 public abstract class Game extends Canvas 
 {
+	private static final long serialVersionUID = -158729495199520244L;
 	protected boolean on = true;
 	protected int width, height;
 	protected Image buffer;

@@ -7,13 +7,14 @@ import java.util.ArrayList;
 public class Ship extends Polygon implements KeyListener
 {
 	
-	private static boolean forward;
-	private static boolean backward;
-	private static boolean turningRight;
-	private static boolean turningLeft;
+	static boolean forward;
+	static boolean backward;
+	static boolean turningRight;
+	static boolean turningLeft;
 	private boolean shoot;
 	private boolean mustRelease;
 	private ArrayList<Bullet> shots;
+	@SuppressWarnings("unused")
 	private Point front;
 
 	public Ship(Point[] inShape, Point inPosition, double inRotation)
@@ -49,21 +50,21 @@ public class Ship extends Polygon implements KeyListener
 
 	public void move() 
 	{	
-        if(isForward()) 
+        if(forward) 
         {
             position.x += 3 * Math.cos(Math.toRadians(rotation));
             position.y += 3 * Math.sin(Math.toRadians(rotation));
         }
-        if(isBackward()) 
+        if(backward) 
         {
             position.x -= 3 * Math.cos(Math.toRadians(rotation));
             position.y -= 3 * Math.sin(Math.toRadians(rotation));
         }
-        if(isTurningRight()) 
+        if(turningRight) 
         {
             rotate(2);
         }
-        if(isTurningLeft()) 
+        if(turningLeft) 
         {
             rotate(-2);
         }
@@ -105,25 +106,6 @@ public class Ship extends Polygon implements KeyListener
 	public double getRotation()
 	{
 		return rotation;
-	}
-
-	public static boolean isForward()
-	{
-		return forward;
-	}
-	public static boolean isBackward()
-	{
-		return backward;
-	}
-
-	public static boolean isTurningRight() 
-	{
-		return turningRight;
-	}
-
-	public static boolean isTurningLeft() 
-	{
-		return turningLeft;
 	}
 
 	public void keyPressed(KeyEvent e) 

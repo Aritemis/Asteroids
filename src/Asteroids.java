@@ -7,10 +7,7 @@ Original code by Dan Leyzberg and Art Simon
  */
 
 import java.awt.*;
-import java.awt.Polygon;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +15,7 @@ import javax.imageio.ImageIO;
 
 public class Asteroids extends Game 
 {
+	private static final long serialVersionUID = 2868242801801916948L;
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
 	public static boolean paused;
@@ -36,6 +34,7 @@ public class Asteroids extends Game
 	private boolean invincible;
 	private BufferedImage lose;
 	private BufferedImage win;
+	@SuppressWarnings("unused")
 	private BufferedImage any;
 	private BufferedImage pause;
 	private BufferedImage proceed;

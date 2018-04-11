@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 public class Asteroids extends Game 
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2868242801801916948L;
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
 	public static boolean paused;

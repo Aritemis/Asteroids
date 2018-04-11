@@ -7,7 +7,6 @@ import java.awt.Graphics;
 
 public class Asteroid extends Polygon implements Shape
 {
-
 	@SuppressWarnings("unused")
 	private Point[] points;
 	
@@ -56,7 +55,4 @@ public class Asteroid extends Polygon implements Shape
 			position.y += Asteroids.SCREEN_HEIGHT;
 		}
 	}
-	
-	
-
 }

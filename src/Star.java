@@ -18,12 +18,12 @@ public class Star extends Circle
 
 	public void move(double rotation) 
 	{
-		if(Ship.isForward()) 
+		if(Ship.forward) 
 		{
 			center.x -= 2 * Math.cos(Math.toRadians(rotation));
 			center.y -= 2 * Math.sin(Math.toRadians(rotation));
 		}
-		if(Ship.isBackward()) 
+		if(Ship.backward) 
 		{
             center.x += 2 * Math.cos(Math.toRadians(rotation));
             center.y += 2 * Math.sin(Math.toRadians(rotation));

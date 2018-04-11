@@ -8,6 +8,7 @@ import java.awt.Graphics;
 public class Asteroid extends Polygon implements Shape
 {
 
+	@SuppressWarnings("unused")
 	private Point[] points;
 	
 	public Asteroid(Point[] inShape, Point inPosition, double inRotation) 

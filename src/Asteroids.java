@@ -1,16 +1,8 @@
-/*
-CLASS: AsteroidsGame
-DESCRIPTION: Extending Game, Asteroids is all in the paint method.
-NOTE: This class is the metaphorical "main method" of your program,
-      it is your control center.
-Original code by Dan Leyzberg and Art Simon
- */
-
+/**
+ 	@author Ariana  Fairbanks
+*/
 import java.awt.*;
-import java.awt.Polygon;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +10,7 @@ import javax.imageio.ImageIO;
 
 public class Asteroids extends Game 
 {
+	private static final long serialVersionUID = 1L;
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
 	public static boolean paused;
@@ -36,6 +29,7 @@ public class Asteroids extends Game
 	private boolean invincible;
 	private BufferedImage lose;
 	private BufferedImage win;
+	@SuppressWarnings("unused")
 	private BufferedImage any;
 	private BufferedImage pause;
 	private BufferedImage proceed;

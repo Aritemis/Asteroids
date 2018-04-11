@@ -1,3 +1,7 @@
+/**
+ 	@author Ariana  Fairbanks
+*/
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -14,6 +18,7 @@ public class Ship extends Polygon implements KeyListener
 	private boolean shoot;
 	private boolean mustRelease;
 	private ArrayList<Bullet> shots;
+	@SuppressWarnings("unused")
 	private Point front;
 
 	public Ship(Point[] inShape, Point inPosition, double inRotation)

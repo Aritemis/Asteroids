@@ -1,18 +1,14 @@
-/*
-CLASS: Game
-DESCRIPTION: A painted canvas in its own window, updated every tenth second.
-USAGE: Extended by Asteroids.
-NOTE: You don't need to understand the details here, no fiddling neccessary.
-Original code by Dan Leyzberg and Art Simon
- */
+/**
+ 	@author Ariana  Fairbanks
+*/
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.JFrame;
 
 public abstract class Game extends Canvas 
 {
+	private static final long serialVersionUID = -158729495199520244L;
 	protected boolean on = true;
 	protected int width, height;
 	protected Image buffer;

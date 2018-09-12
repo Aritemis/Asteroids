@@ -182,18 +182,8 @@ public class Asteroids extends Game
 			{
 				star.paint(brush, Color.white, ship.getRotation());
 			}
-			
-			//draw counter
-			counter++;
-			brush.setColor(Color.green);
-			if(lives < 2)
-			{
-				brush.setColor(Color.red);
-			}
-			brush.drawString("Lives Left: " + lives, 25, 25);
 		
-			
-			
+			//draw asteroids 
 			brush.setColor(Color.gray);
 			for (Asteroid asteroid : randomAsteroids)
 			{
@@ -208,7 +198,7 @@ public class Asteroids extends Game
 					collide = true;
 					invincible = true;
 				}
-				asteroid.paint(brush, Color.gray);
+				asteroid.paint(brush, Color.white);
 				
 				for(Bullet shot:shots)
 				{
@@ -230,13 +220,23 @@ public class Asteroids extends Game
 			}
 		
 			
+			//draw counter
+			counter++;
+			brush.setColor(Color.green);
+			if(lives < 2)
+			{
+				brush.setColor(Color.red);
+			}
+			brush.drawString("Lives Left: " + lives, 25, 25);
+			
+			
 			if(!collide)
 			{
-				ship.paint(brush,shipColor);
+				ship.paint(brush, shipColor);
 			}
 			else
 			{
-				ship.paint(brush,shipColor);
+				ship.paint(brush, shipColor);
 				collideCount--;
 				if(collideCount == 0)
 				{
@@ -253,7 +253,7 @@ public class Asteroids extends Game
 				{
 					removeList.add(shot);
 				}
-				shot.paint(brush,shipColor);
+				shot.paint(brush, shipColor);
 			}
 			for(Bullet shot: removeList)
 			{

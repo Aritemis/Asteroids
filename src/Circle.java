@@ -4,7 +4,7 @@
  */
 import java.awt.*;
 
-public abstract class Circle implements Shape {
+public abstract class Circle {
     protected Point center;
     protected int radius;
 

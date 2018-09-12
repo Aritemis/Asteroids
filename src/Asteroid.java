@@ -5,7 +5,7 @@ import java.awt.Graphics;
  *	@author Ariana Fairbanks
  */
 
-public class Asteroid extends Polygon implements Shape
+public class Asteroid extends Polygon
 {
 	@SuppressWarnings("unused")
 	private Point[] points;
@@ -16,7 +16,6 @@ public class Asteroid extends Polygon implements Shape
 		this.points = inShape;
 	}
 
-	@Override
 	public void paint(Graphics brush, Color color) 
 	{
 		move();
@@ -29,34 +28,35 @@ public class Asteroid extends Polygon implements Shape
 			xValues[i] = (int) points[i].x;
 			yValues[i] = (int) points[i].y;
 		}
-		brush.setColor(color);
+		brush.setColor(Color.black);
 		brush.fillPolygon(xValues, yValues, npts);
+		brush.setColor(color);
+		brush.drawPolygon(xValues, yValues, npts);
 	}
 
-	@Override
 	public void move() 
 	{
 		position.x += Math.cos(Math.toRadians(rotation));
-		//position.y += Math.sin(Math.toRadians(rotation));
+		position.y += Math.sin(Math.toRadians(rotation));
 		int maxWidth = 2 * Asteroids.maxAsteroidWidth;
 		int screenWidth = Asteroids.SCREEN_WIDTH;
 		int screenHeight = Asteroids.SCREEN_HEIGHT;
 		if(position.x > screenWidth + maxWidth) 
 		{
-			position.x -= screenWidth + (2 * maxWidth);
+			position.x -= screenWidth + (1.5 * maxWidth);
 		} 
 		else if(position.x + maxWidth < 0)
 		{
-			position.x += screenWidth + (2 * maxWidth);
+			position.x += screenWidth + (1.5 * maxWidth);
 		}
 		
 		if(position.y > screenHeight + maxWidth) 
 		{
-			position.y -= screenHeight + (2 * maxWidth);
+			position.y -= screenHeight + (1.5 * maxWidth);
 		} 
 		else if(position.y + maxWidth < 0) 
 		{
-			position.y += screenHeight + (2 * maxWidth);
+			position.y += screenHeight + (1.5 * maxWidth);
 		}
 		
 	}

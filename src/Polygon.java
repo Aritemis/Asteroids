@@ -1,5 +1,5 @@
 
-public  abstract class Polygon implements Shape 
+public  abstract class Polygon 
 {
 	private Point[] shape;   // An array of points.
 	public Point position;   // The offset mentioned above.

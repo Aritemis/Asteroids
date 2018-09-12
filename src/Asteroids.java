@@ -3,11 +3,11 @@
  * Original code by Dan Leyzberg and Art Simon
  */
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 
 public class Asteroids extends Game 

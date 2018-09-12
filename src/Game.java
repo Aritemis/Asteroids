@@ -3,9 +3,11 @@
  * Original code by Dan Leyzberg and Art Simon
  */
 
-import java.awt.*;
-import java.awt.event.*;
-
+import java.awt.Canvas;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 public abstract class Game extends Canvas 

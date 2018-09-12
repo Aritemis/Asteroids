@@ -29,7 +29,6 @@ public class Asteroids extends Game
 	private int shipColor;
 	private Star[] stars;
 	private int colorPosition;
-	private int starCount;
 	private int lives;
 	private boolean invincible;
 	private BufferedImage lose;
@@ -38,6 +37,9 @@ public class Asteroids extends Game
 	private BufferedImage any;
 	private BufferedImage pause;
 	private BufferedImage proceed;
+	public static int numAsteroids = 20;
+	public static int maxAsteroidWidth = 35;
+	public static int minAsteroidWidth = 30;
 
 	public Asteroids() 
 	{
@@ -53,11 +55,10 @@ public class Asteroids extends Game
 		Point shipPosition = new Point(400,300);
 		ship = new Ship(shipShape, shipPosition, 270);
 		this.addKeyListener(ship);
-		randomAsteroids = createRandomAsteroids(15,60,30);
+		randomAsteroids = createRandomAsteroids(numAsteroids, maxAsteroidWidth, minAsteroidWidth);
 		stars = createStars(200, 5);
 		collideCount = 0;
 		colorPosition = 0;
-		starCount = 0;
 		lives = 5;
 		invincible = false;
 		limbo = false;
@@ -171,9 +172,18 @@ public class Asteroids extends Game
 			{
 				shipColor = danger();
 			}
+			
+			//draw background
 			brush.setColor(Color.black);
 			brush.fillRect(0,0,width,height);
 			
+			//draw stars
+			for (Star star : stars)
+			{
+				star.paint(brush, Color.white, ship.getRotation());
+			}
+			
+			//draw counter
 			counter++;
 			brush.setColor(Color.green);
 			if(lives < 2)
@@ -181,6 +191,9 @@ public class Asteroids extends Game
 				brush.setColor(Color.red);
 			}
 			brush.drawString("Lives Left: " + lives, 25, 25);
+		
+			
+			
 			brush.setColor(Color.gray);
 			for (Asteroid asteroid : randomAsteroids)
 			{
@@ -195,7 +208,6 @@ public class Asteroids extends Game
 					collide = true;
 					invincible = true;
 				}
-				
 				asteroid.paint(brush, Color.gray);
 				
 				for(Bullet shot:shots)
@@ -216,21 +228,7 @@ public class Asteroids extends Game
 			{
 				shots.remove(shot);
 			}
-			
-			for (Star star : stars)
-			{
-				Color starColor = Color.white;
-				if(starCount == 2)
-				{
-					if(colorPosition == 0)
-					{
-						starColor = Color.black;
-					}
-					starCount = -1;
-				}
-				starCount++;
-				star.paint(brush, starColor, ship.getRotation());
-			}
+		
 			
 			if(!collide)
 			{
@@ -347,11 +345,10 @@ public class Asteroids extends Game
 		Point shipPosition = new Point(400,300);
 		ship = new Ship(shipShape, shipPosition, 270);
 		this.addKeyListener(ship);
-		randomAsteroids = createRandomAsteroids(15,60,30);
+		randomAsteroids = createRandomAsteroids(numAsteroids, maxAsteroidWidth, minAsteroidWidth);
 		stars = createStars(200, 5);
 		collideCount = 0;
 		colorPosition = 0;
-		starCount = 0;
 		lives = 5;
 		invincible = false;
 		limbo = false;

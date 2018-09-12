@@ -30,29 +30,34 @@ public class Asteroid extends Polygon implements Shape
 			yValues[i] = (int) points[i].y;
 		}
 		brush.setColor(color);
-		brush.drawPolygon(xValues, yValues, npts);
+		brush.fillPolygon(xValues, yValues, npts);
 	}
 
 	@Override
 	public void move() 
 	{
 		position.x += Math.cos(Math.toRadians(rotation));
-		position.y += Math.sin(Math.toRadians(rotation));
-		if(position.x > Asteroids.SCREEN_WIDTH) 
+		//position.y += Math.sin(Math.toRadians(rotation));
+		int maxWidth = 2 * Asteroids.maxAsteroidWidth;
+		int screenWidth = Asteroids.SCREEN_WIDTH;
+		int screenHeight = Asteroids.SCREEN_HEIGHT;
+		if(position.x > screenWidth + maxWidth) 
 		{
-			position.x -= Asteroids.SCREEN_WIDTH;
+			position.x -= screenWidth + (2 * maxWidth);
 		} 
-		else if(position.x < 0)
+		else if(position.x + maxWidth < 0)
 		{
-			position.x += Asteroids.SCREEN_WIDTH;
+			position.x += screenWidth + (2 * maxWidth);
 		}
-		if(position.y > Asteroids.SCREEN_HEIGHT) 
+		
+		if(position.y > screenHeight + maxWidth) 
 		{
-			position.y -= Asteroids.SCREEN_HEIGHT;
+			position.y -= screenHeight + (2 * maxWidth);
 		} 
-		else if(position.y < 0) 
+		else if(position.y + maxWidth < 0) 
 		{
-			position.y += Asteroids.SCREEN_HEIGHT;
+			position.y += screenHeight + (2 * maxWidth);
 		}
+		
 	}
 }

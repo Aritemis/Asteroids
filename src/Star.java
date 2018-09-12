@@ -18,23 +18,21 @@ public class Star extends Circle
 
 	public void move(double rotation) 
 	{
+		double radians = Math.toRadians(rotation);
+		double mod = -3;
+		
 		if(Ship.forward) 
 		{
-			center.x -= 2 * Math.cos(Math.toRadians(rotation));
-			center.y -= 2 * Math.sin(Math.toRadians(rotation));
+			mod = -5;
 		}
 		if(Ship.backward) 
 		{
-            center.x += 2 * Math.cos(Math.toRadians(rotation));
-            center.y += 2 * Math.sin(Math.toRadians(rotation));
+            mod = 3;
 		}
+		
+		center.x += mod * Math.cos(radians);
+		center.y += mod * Math.sin(radians);
 
-		center.x -= Math.cos(Math.toRadians(rotation));
-		center.y -= Math.sin(Math.toRadians(rotation));
-		center.x -= Math.cos(Math.toRadians(Math.random()*50));
-		center.y -= Math.cos(Math.toRadians(Math.random()*50));
-		center.x += Math.cos(Math.toRadians(Math.random()*50));
-		center.y += Math.cos(Math.toRadians(Math.random()*50));
 
 		if(center.x > Asteroids.SCREEN_WIDTH) 
 		{

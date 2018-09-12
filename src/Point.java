@@ -1,9 +1,5 @@
-/*
-CLASS: Point
-DESCRIPTION: Ah, if only real-life classes were this straight-forward. We'll
-             use 'Point' throughout the program to store and access 
-             coordinates.
-Original code by Dan Leyzberg and Art Simon
+/**
+ * Original code by Dan Leyzberg and Art Simon
 */
 
 public class Point implements Cloneable 

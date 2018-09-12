@@ -1,9 +1,9 @@
-import java.awt.Color;
-import java.awt.Graphics;
-
 /**
  *	@author Ariana Fairbanks
  */
+
+import java.awt.Color;
+import java.awt.Graphics;
 
 public class Asteroid extends Polygon
 {

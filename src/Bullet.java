@@ -22,7 +22,6 @@ public class Bullet extends Circle
 		brush.fillOval((int)center.x, (int)center.y, radius, radius);
 	}
 
-	@Override
 	public void move() 
 	{
 		center.x += 4 * Math.cos(Math.toRadians(rotation));

@@ -13,6 +13,4 @@ public abstract class Circle
 		this.center = center;
 		this.radius = radius;
 	}
-
-	public abstract void move();
 }

@@ -56,10 +56,4 @@ public class Star extends Circle
 		}
 	}
 
-	@Override
-	public void move() 
-	{
-		
-	}
-
 }

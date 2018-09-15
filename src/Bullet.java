@@ -16,7 +16,6 @@ public class Bullet extends Circle
 		this.rotation = rotation;
 	}
 
-	@Override
 	public void paint(Graphics brush, Color color) 
 	{
 		brush.setColor(color);

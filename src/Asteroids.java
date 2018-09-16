@@ -43,25 +43,7 @@ public class Asteroids extends Game
 		super("Asteroids",800,600);
 		this.setFocusable(true);
 		this.requestFocus();
-		Point[] shipShape = 
-		{
-				new Point(0, 0),
-				new Point(0, 20),
-				new Point(30, 10)
-		};
-		Point shipPosition = new Point(400,300);
-		ship = new Ship(shipShape, shipPosition, 270);
-		this.addKeyListener(ship);
-		randomAsteroids = createRandomAsteroids(numAsteroids, maxAsteroidWidth, minAsteroidWidth);
-		stars = createStars(200, 5);
-		collideCount = 0;
-		colorPosition = 0;
-		lives = 5;
-		invincible = false;
-		limbo = false;
-		reset = false;
-		paused = false;
-		collide = false;
+		reset();
 		try 
 		{
 			lose = ImageIO.read(this.getClass().getResourceAsStream("lose.png"));

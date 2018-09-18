@@ -20,10 +20,11 @@ public class Ship extends Polygon implements KeyListener
 	private ArrayList<Bullet> shots;
 	@SuppressWarnings("unused")
 	private Point front;
+	private static Point[] shipShape = { new Point(0, 0), new Point(0, 20), new Point(30, 10) };
 
-	public Ship(Point[] inShape, Point inPosition, double inRotation)
+	public Ship(Point inPosition, double inRotation)
 	{
-		super(inShape, inPosition, inRotation);
+		super(shipShape, inPosition, inRotation);
 		forward = false;
 		backward = false;
 		turningRight = false;
@@ -110,6 +111,11 @@ public class Ship extends Polygon implements KeyListener
 	public double getRotation()
 	{
 		return rotation;
+	}
+	
+	public void setPosition(Point position)
+	{
+		super.setPosition(position);
 	}
 
 	public void keyPressed(KeyEvent e) 

@@ -82,12 +82,11 @@ public  abstract class Polygon
 	}
 
 	public void rotate(int degrees) {rotation = (rotation+degrees)%360;}
-
-	/*
-  The following methods are private access restricted because, as this access
-  level always implies, they are intended for use only as helpers of the
-  methods in this class that are not private. They can't be used anywhere else.
-	 */
+	
+	protected void setPosition(Point position)
+	{
+		this.position = position;
+	}
 
 	// "findArea" implements some more magic math.
 	private double findArea() {

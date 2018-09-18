@@ -34,6 +34,7 @@ public class Asteroids extends Game
 	private BufferedImage any;
 	private BufferedImage pause;
 	private BufferedImage proceed;
+	private Point shipPosition;
 	public static int numAsteroids = 20;
 	public static int maxAsteroidWidth = 35;
 	public static int minAsteroidWidth = 30;
@@ -43,6 +44,9 @@ public class Asteroids extends Game
 		super("Asteroids",800,600);
 		this.setFocusable(true);
 		this.requestFocus();
+		shipPosition = new Point(400,300);
+		ship = new Ship(shipPosition, 270);
+		this.addKeyListener(ship);
 		reset();
 		try 
 		{
@@ -315,15 +319,7 @@ public class Asteroids extends Game
 	
 	private void reset()
 	{
-		Point[] shipShape = 
-			{
-					new Point(0, 0),
-					new Point(0, 20),
-					new Point(30, 10)
-			};
-		Point shipPosition = new Point(400,300);
-		ship = new Ship(shipShape, shipPosition, 270);
-		this.addKeyListener(ship);
+		ship.setPosition(shipPosition);
 		randomAsteroids = createRandomAsteroids(numAsteroids, maxAsteroidWidth, minAsteroidWidth);
 		stars = createStars(200, 5);
 		collideCount = 0;

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class Ship extends Polygon implements KeyListener
 {
-	
 	static boolean forward;
 	static boolean backward;
 	static boolean turningRight;
@@ -33,6 +32,18 @@ public class Ship extends Polygon implements KeyListener
 		mustRelease = false;
 		shots = new ArrayList<Bullet>();
 		front = inPosition;
+	}
+	
+	public void resetShip()
+	{
+		forward = false;
+		backward = false;
+		turningRight = false;
+		turningLeft = false;
+		shoot = false;
+		mustRelease = false;
+		shots = new ArrayList<Bullet>();
+		rotation = 270;
 	}
 
 	public void paint(Graphics brush, Color color) 
@@ -111,11 +122,6 @@ public class Ship extends Polygon implements KeyListener
 	public double getRotation()
 	{
 		return rotation;
-	}
-	
-	public void setPosition(Point position)
-	{
-		super.setPosition(position);
 	}
 
 	public void keyPressed(KeyEvent e) 

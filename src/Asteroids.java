@@ -45,7 +45,7 @@ public class Asteroids extends Game
 		this.setFocusable(true);
 		this.requestFocus();
 		shipPosition = new Point(400,300);
-		ship = new Ship(shipPosition, 270);
+		ship = new Ship(shipPosition.clone(), 270);
 		this.addKeyListener(ship);
 		reset();
 		try 
@@ -319,7 +319,8 @@ public class Asteroids extends Game
 	
 	private void reset()
 	{
-		ship.setPosition(shipPosition);
+		ship.setPosition(shipPosition.clone());
+		ship.resetShip();
 		randomAsteroids = createRandomAsteroids(numAsteroids, maxAsteroidWidth, minAsteroidWidth);
 		stars = createStars(200, 5);
 		collideCount = 0;
